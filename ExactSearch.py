@@ -19,6 +19,7 @@ class SAT:
             self.literals.append("x"+str(x))
         for y in range(1, numOfLiterals + 1):
             self.literals.append("¬x"+str(y))
+        return self.literals
 
 
     '''Generate dictionaries by creating key value pair for each literal''' 
@@ -159,7 +160,7 @@ class SAT:
 if __name__ == '__main__':
     array = [];
     for i in range(20):
-        _input=10
+        _input=35
         a = SAT()
         counter = 0
         start = time.time()

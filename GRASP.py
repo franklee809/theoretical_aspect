@@ -24,6 +24,7 @@ class SAT:
             self.literals.append("x"+str(x))
         for y in range(1, numOfLiterals + 1):
             self.literals.append("¬x"+str(y))
+        return self.literals
 
 
     '''Generate dictionaries by creating key value pair for each literal'''
@@ -31,10 +32,12 @@ class SAT:
         for x in range(numOfLiterals,0,-1):
             self.literalsValue["x"+str(x)] = 2
             self.complementLiteralsValue["¬x"+str(x)] = 2
+        return self.complementLiteralsValue
 
 
     '''Generate problem randomly according to number of clauses stated by the user'''
     def ProblemGenerator(self,numOfClause):
+        self.formula = "";
         checkList = []
         for x in range (numOfClause):
             while True:
@@ -266,13 +269,13 @@ class SAT:
        
 
 if __name__ == '__main__':
-    numofclause=30
-    numofliteral=25
+    numofclause=20
+    numofliteral=20
     a = SAT()
     counter = 1
     checkResult = 3
     start = time.time()
-
+    array = [];
     a.LiteralListGenerator(numofliteral)
     a.DictKeyValueGenerator(numofliteral)
     print("Initialized literals list: ", a.literals,"\n")
@@ -281,41 +284,48 @@ if __name__ == '__main__':
     #print(a.complementLiteralsValue)
     #print()
 
-    print("Problem Generation: " + a.ProblemGenerator(numofclause) + "\n")
-    o = a.CheckOccurrence()
-    print("Number of Occurrence: " , o)
-    print()
-
-    while counter < 50 and checkResult != 1:
-        #print("Literals Value Assignment")
-        if counter == 1:
-            a.AssignValueAccordingOccurrence(o)
-        
-        else:
-            a.AssignValueNeighbour(o,counter)
-        
-        '''print("Overwritten dictionary value:")
-        print(a.literalsValue)
-        print(a.complementLiteralsValue)
+    for i in range(1):
+        print("Problem Generation: " + a.ProblemGenerator(numofclause) + "\n")
+        o = a.CheckOccurrence()
+        print("Number of Occurrence: " , o)
         print()
-        print("Dictionary value according to best assignment:")
-        print(a.tempAssignmentsLiteralCopy)
-        print()
-        print(a.tempAssignmentsComplementLiteralCopy)
-        print()'''
-        b = a.CheckClauses(a.AssignValueFormula())
-        #print()
-        #print(b)
-        #print()
-        checkResult = a.CheckProblem(b)
-        #print(checkResult)
-        #print(a.CheckProblem(b))
-        counter += 1
+
+        while counter < 50 and checkResult != 1:
+            #print("Literals Value Assignment")
+            if counter == 1:
+                a.AssignValueAccordingOccurrence(o)
+            
+            else:
+                a.AssignValueNeighbour(o,counter)
+            
+            '''print("Overwritten dictionary value:")
+            print(a.literalsValue)
+            print(a.complementLiteralsValue)
+            print()
+            print("Dictionary value according to best assignment:")
+            print(a.tempAssignmentsLiteralCopy)
+            print()
+            print(a.tempAssignmentsComplementLiteralCopy)
+            print()'''
+            b = a.CheckClauses(a.AssignValueFormula())
+            #print()
+            #print(b)
+            #print()
+            checkResult = a.CheckProblem(b)
+            print('checkResult ', checkResult)
+            #print(a.CheckProblem(b))
+            counter += 1
+            
+
+
+        end = time.time()
+        print("\nTotal Computing time: ",end-start,"s")
+        array.append(end-start);
         
+    
+    f = open("result.txt", "a+")
+    for i in range(len(array)):
+        f.write(str(array[i-1])+"\n")
 
-
-        
-    end = time.time()
-    print("\nTotal Computing time: ",end-start,"s")
-
+    f.close()
 
