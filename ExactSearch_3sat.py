@@ -159,8 +159,8 @@ class SAT:
        
 if __name__ == '__main__':
     array = [];
-    for i in range(20):
-        _input=35
+    for i in range(1):
+        _input=10
         a = SAT()
         counter = 0
         start = time.time()
@@ -203,6 +203,23 @@ if __name__ == '__main__':
 
         print("\nTotal Computing time: ",end-start,"s")
         array.append(end-start)
-    pp = pprint.PrettyPrinter(indent=4)
-    pp.pprint(array);
+
+    # Print out the class keys and keys type
+        # print("\n\n",'Class keys'+"\n\n", a.__dict__.keys(), "\n")
+        # print("\n\n", "type of literals :",type(a.literals))
+        # print("\n\n", "type of literalsValue :", type(a.literalsValue))
+        # print("\n\n","type of literalsValueComplement :", type(a.literalsValueComplement))
+        # print("\n\n","type of formula :", type(a.formula))
+        # print("\n\n","type of x :", type(a.x))
+
+    # Print out the SAT class value 
+    # print(a.__dict__)
+
+    # Save result into a text file
+    # f = open("result.txt", "a+")
+    # for i in range(len(array)):
+    #     f.write(str(array[i-1])+"\n")
+
+    # f.close()
+
 
