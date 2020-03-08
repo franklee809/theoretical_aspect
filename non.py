@@ -7,11 +7,11 @@ def randomSet():
     set = []
 
     #set length of array
-    length = 10
+    length = 20
 
     #for loop append randomize numbers into array
     for i in range(length):
-        set.append(random.randint(1, 100))
+        set.append(random.randint(1, 200))
     
     return set
 
@@ -25,30 +25,39 @@ def initialArr():
     #get set from randomSet function
     set = randomSet()
     #print out array
-    print(set)
+    #print(set)
 
     sum = sumOfSet(set)
 
     #print(sum)
 
-    #if the sum is divisible by 2, it can be divided into 2 partitions with equal sum
-   # if (sum%2) == 0 :
+    #if the sum is divisible by 3, it can be divided into 3 partitions with equal sum
+    if (sum % 3) == 0 :
         #print(sum)
-    return set
-    """else:
-        return False"""
+        return set
+    else:
+        return False
 
 
 def greedy(arr):
     A = []
     B = []
+    C = []
     #numbers are sorted
+    print(arr);
     for i in sorted(arr, reverse=True):
-        if sum(A) < sum(B):
+        #print(sum(A))
+        if sum(A) <= sum(B) and sum(A) <= sum(C):
             A.append(i)
-        else: 
+
+        elif sum(B) <= sum(A) and sum(B) <= sum(C):
             B.append(i)
-    return (A,B)
+            
+        else: 
+            C.append(i)
+    print("Set A :", A, "\n" , "Set B :", B, "\n", "Set C :",C, "\n")
+    return (A,B,C)
+    
 
 #main is the solution, arr is the another array from greedy where numbers
 #not in solution is stored, target is the half of total sum, dif is difference to target
@@ -60,10 +69,10 @@ def localSearch(main, arr, target, dif):
     #print("before local search: ", main)
 
     for h in range(3):
-        #add a smallest number into main array to swaps and search for a better solution
-
-        if h==1 and abs(target - _sum(main,len(main))) is not 0:
-            minIndex = 0
+        
+        #Step 1: add a smallest number into main array to swaps and search for a better solution
+        if h==1 and abs(target - _sum(main,len(main))) != 0:
+            minIndex = 0 
             for k in range(len(arr)):
                 if k == 0:
                     min=arr[k]
@@ -102,7 +111,7 @@ def localSearch(main, arr, target, dif):
 
                 if target == _sum(main,len(main)):                    
                     arr[j] = temp
-                    print("Found: ",main, " and ", arr)
+                    #print("Found: ",main, " and ", arr)
                     return main, arr, dif, True
                     break
 
@@ -177,56 +186,79 @@ def getBetter(A, B, betterA,betterB, betterDif, target):
 def _sum(arr, n):
     return sum(arr)
 
+def compareDiffSets(diffA,diffB,diffC){
+    result = False
+    if abs(difSetA) <= abs(difSetB):
+        a = True
+    elif abs(difSetC) <= abs(difSetB):
+        a = True
+    elif abs(difSetA) <= abs(difSetC)
+        a = True
+    elif abs(difSetB > difSetA):
+        a = True
+    elif abs(difSetA < difSetB):
+        a = True
+    else:
+        a = True
+    return result, a
+}
 
 def main():
     #for best solution found
 
-    for i in range (20):
+    for i in range (1):
         t = time.perf_counter_ns()#initialize var to store starting time
         f = open("factor_3_nonexact.txt", "a+")
 
         betterA = []
         betterB = []
-        betterDif = 0   
+        betterC = []
+        betterDif1 = 0   
+        betterDif2 = 0   
 
         set = initialArr()
         while set == False:
             set = initialArr()
 
-        setA, setB = greedy(set)# get partitions after greedy
-
-        #print("A", setA)
-        #print("B", setB)
+        setA, setB, setC = greedy(set)# get partitions after greedy - return 3 arrays 
 
         #get a solution that is better
         sum = sumOfSet(set)
         #print(sum)
 
-        # to get difference to sum/2
-        difSetA = sum/2 - _sum(setA, len(setA))
-        difSetB = sum/2 - _sum(setB, len(setB))
+        # to get difference to sum/3
+        difSetA = sum/3 - _sum(setA, len(setA))
+        difSetB = sum/3 - _sum(setB, len(setB))
+        difSetC = sum/3 - _sum(setC, len(setC))
+        print('difSetA :', difSetA, difSetB, difSetC)
 
-        betterA.extend(setA)
-        #print('betterA',betterA)
-        betterB.extend(setB)
-        betterDif += difSetA
+
+        betterA.extend(setA); 
+        betterB.extend(setB);
+        betterC.extend(setC);
+        
+        betterDif1 += difSetA
+        betterDif2 += difSetB
 
         #print("A",sum - _sum(setA, len(setA))," B",sum - _sum(setB, len(setB)))
-        #print("A",difSetA," B",difSetB)
         #print(abs(difSetA) < abs(difSetB))
-
+        print("Total Set A ", _sum(setA, len(setA)))
+        print("Total Set B ", _sum(setB, len(setB)))
+        print("Total Set C ", _sum(setC, len(setC)))
+        print("difSetA : ",abs(difSetA))
+        print("difSetB : ",abs(difSetB))
+        print("difSetC : ",abs(difSetC))
         # if the difference to the half of the sum of array is smaller, that is a better solution
-        if sum/2 == _sum(setA, len(setA)):
+        if sum/3 == _sum(setA, len(setA)) and sum/3 == _sum(setB, len(setB)) and sum/3 == _sum(setC, len(setC)):
             #print("Found: ", setA, " and ", setB)
             elapsed_time = time.perf_counter_ns() - t
             #print(elapsed_time/1000000)
             f.write(str(elapsed_time/1000000)+"\n")
-        elif abs(difSetA) <= abs(difSetB):
-            #print(sum/2, " ", difSetA)
-
-            sA, sB, sDif, found = localSearch(setA,setB, sum/2, difSetA)
+        elif compareDiffSets(abs(difSetA),abs(difSetB),abs(diffSetC)) == True :
+            # print(setA, setB, sum/3, difSetA);
+            sA, sB, sDif, found = localSearch(setA,setB,sum/3, difSetA)
             
-            betterA,betterB,betterDif = getBetter(sA,sB,betterA,betterB,betterDif,sum/2)
+            betterA,betterB,betterDif = getBetter(sA,sB,betterA,betterB,betterDif1,sum/3)
 
             for n in range(99):
                 if found is True:
@@ -234,22 +266,21 @@ def main():
                     #print(elapsed_time/1000000)
                     f.write(str(elapsed_time/1000000)+"\n")
                     break
-                sA, sB, sDif, found = localSearch(sA,sB, sum/2, sDif)
+                sA, sB, sDif, found = localSearch(sA,sB, sum/3, sDif)
 
-                betterA,betterB,betterDif = getBetter(sA,sB,betterA,betterB,betterDif,sum/2)
+                betterA,betterB,betterDif = getBetter(sA,sB,betterA,betterB,betterDif1,sum/3)
 
                 
             if found is False:
                 #print("Better solution: ",betterA," and ", betterB, sumOfSet(betterA))
                 elapsed_time = time.perf_counter_ns() - t
                 #print(elapsed_time/1000000)
-                f.write(str(elapsed_time/1000000)+"\n")
-                
+                f.write(str(elapsed_time/1000000)+"\n")        
 
         else:
-            sB, sA, sDif, found = localSearch(setB,setA, sum/2, difSetB)
+            sB, sA, sDif, found = localSearch(setB,setA, sum/3, difSetB)
 
-            betterA,betterB,betterDif = getBetter(sB,sA,betterA,betterB,betterDif,sum/2)
+            betterA,betterB,betterDif = getBetter(sB,sA,betterA,betterB,betterDif1,sum/3)
 
 
             for n in range(99):
@@ -258,9 +289,9 @@ def main():
                     #print(elapsed_time/1000000)
                     f.write(str(elapsed_time/1000000)+"\n")
                     break
-                sB, sA, sDif, found = localSearch(sB,sA, sum/2, sDif)
+                sB, sA, sDif, found = localSearch(sB,sA, sum/3, sDif)
 
-                betterA,betterB,betterDif = getBetter(sB,sA,betterA,betterB,betterDif,sum/2)
+                betterA,betterB,betterDif = getBetter(sB,sA,betterA,betterB,betterDif1,sum/3)
 
 
             if found is False:
@@ -274,3 +305,5 @@ def main():
     
 
 main()
+
+# print(abs(1/3 - _sum(main,len(main))))

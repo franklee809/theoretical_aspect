@@ -163,7 +163,7 @@ if __name__ == '__main__':
         _input=10
         a = SAT()
         counter = 0
-        start = time.time()
+        # start = time.time()
         
         a.LiteralListGenerator(_input)
         a.DictKeyValueGenerator(_input)
@@ -171,15 +171,14 @@ if __name__ == '__main__':
         '''print("Initialized literals list: ", a.literals,"\n")
         print("Initialized dictionary value:")
         print(a.literalsValue)
-        print(a.literalsValueComplement)
-        print()'''
+        print(a.literalsValueComplement)'''
+
         print("Problem Generation: " + a.ProblemGenerator(30) + "\n")
 
         print("Checking for solution...\n")
         while a.x != ("1"*_input):     
             if counter != 0:
                 a.AssignValueDictionary()
-                #print()
             else:
                 '''print(a.literalsValue)
                 print(a.literalsValueComplement)
@@ -199,10 +198,10 @@ if __name__ == '__main__':
             if a.x == ("1"*_input) and c == 0:
                 print("There is no solution for this 3-SAT problem.")
 
-        end = time.time()
+        # end = time.time()
 
-        print("\nTotal Computing time: ",end-start,"s")
-        array.append(end-start)
+        # print("\nTotal Computing time: ",end-start,"s")
+        # array.append(end-start)
 
     # Print out the class keys and keys type
         # print("\n\n",'Class keys'+"\n\n", a.__dict__.keys(), "\n")
@@ -215,11 +214,11 @@ if __name__ == '__main__':
     # Print out the SAT class value 
     # print(a.__dict__)
 
-    # Save result into a text file
-    # f = open("result.txt", "a+")
-    # for i in range(len(array)):
-    #     f.write(str(array[i-1])+"\n")
+    Save result into a text file
+    f = open("result.txt", "a+")
+    for i in range(len(array)):
+        f.write(str(array[i-1])+"\n")
 
-    # f.close()
+    f.close()
 
 

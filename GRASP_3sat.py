@@ -16,6 +16,7 @@ class SAT:
         self.counter = 1
         self.dictChoice = ""
         self.zeroOccurrenceList = []
+        self.accuracy = 0
         
 
     '''Generate a list of literals according to the number of literals stated by the user'''
@@ -235,7 +236,7 @@ class SAT:
             if self.counter == 50:
                 #print("There is no solution for this 3-SAT problem.")
                 self.PrintMostSatisfiableAssignments()
-                print(self.numOfSatClauses)
+                # print(self.PrintMostSatisfiableAssignments())
             return 0
             
         else:
@@ -247,7 +248,9 @@ class SAT:
                 self.tempAssignmentsLiteral = copy.deepcopy(self.tempAssignmentsLiteralCopy)
                 self.tempAssignmentsComplementLiteral = copy.deepcopy(self.tempAssignmentsComplementLiteralCopy)
             print("There is/are solution(s) for this 3-SAT problem.")
-            self.PrintMostSatisfiableAssignments()
+            # self.PrintMostSatisfiableAssignments()
+            if self.counter == 50:
+                self.PrintMostSatisfiableAssignments()
             return 1
 
 
@@ -263,32 +266,31 @@ class SAT:
             print("{}\t\t{}".format(i1,self.tempAssignmentsComplementLiteral[i1]))
         print("=======================")'''
         print("The best it can hit is ",self.numOfSatClauses,"/ "+str(numofclause)+" clauses.")
+        # return self.numOfSatClauses/numofclause
+        self.accuracy = numofclause;
    
 
 
        
 
 if __name__ == '__main__':
-    numofclause=20
-    numofliteral=20
+    numofclause=10
+    numofliteral=15
     a = SAT()
     counter = 1
-    checkResult = 3
-    start = time.time()
-    array = [];
+    checkResult = 3     
     a.LiteralListGenerator(numofliteral)
     a.DictKeyValueGenerator(numofliteral)
-    print("Initialized literals list: ", a.literals,"\n")
-    #print("Initialized dictionary value:")
-    #print(a.literalsValue)
-    #print(a.complementLiteralsValue)
-    #print()
-
+    array = []
     for i in range(1):
+
+        # start = time.time()
+
+        print("Initialized literals list: ", a.literals,"\n")
+
         print("Problem Generation: " + a.ProblemGenerator(numofclause) + "\n")
         o = a.CheckOccurrence()
         print("Number of Occurrence: " , o)
-        print()
 
         while counter < 50 and checkResult != 1:
             #print("Literals Value Assignment")
@@ -307,23 +309,27 @@ if __name__ == '__main__':
             print()
             print(a.tempAssignmentsComplementLiteralCopy)
             print()'''
+            # print("Dictionary value according to best assignment:")
+            # print(a.tempAssignmentsLiteralCopy)
             b = a.CheckClauses(a.AssignValueFormula())
-            #print()
-            #print(b)
-            #print()
             checkResult = a.CheckProblem(b)
             print('checkResult ', checkResult)
             #print(a.CheckProblem(b))
             counter += 1
-            
+        # avgList = []
+        # for k,v in a.tempAssignmentsLiteralCopy.iteritems():
+        #     # v is the list of grades for student k
+        #     avgList.append(sum(v)/ float(len(v)))
+        # print(avgList)
+        print(a.tempAssignmentsLiteralCopy)
+        array.append(a.accuracy)
 
-
-        end = time.time()
-        print("\nTotal Computing time: ",end-start,"s")
-        array.append(end-start);
+        # end = time.time()
+        # print("\nTotal Computing time: ",end-start,"s")
+        # array.append(end-start)
         
     
-    f = open("result.txt", "a+")
+    f = open("result1.txt", "a+")
     for i in range(len(array)):
         f.write(str(array[i-1])+"\n")
 
